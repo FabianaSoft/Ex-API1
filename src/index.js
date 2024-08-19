@@ -29,6 +29,11 @@ app.post('/departamentos', (req, res) => {
     console.log(req.body);
     res.send('POST departamentos');
 });
+app.delete('/departamentos', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.query.id;
+    const query = yield connection_1.default.query(`DELETE FROM departamentos WHERE id_departamento = ${id}`);
+    res.json(query);
+}));
 app.listen(porta, () => {
     console.log(`Servidor escutando na
 porta http://localhost:${porta}`);
