@@ -1,4 +1,10 @@
 import mysql from "mysql2/promise"
+import dotenv from 'dotenv';
+dotenv.config();
+
+// Para que a conexao funcione, precisamos de um arquivo chamado ".env" que contenha os dados abaixo
+// Ex.: 
+// DB_HOST="localhost"
 
 
 const conexao = mysql.createPool({
@@ -9,3 +15,4 @@ const conexao = mysql.createPool({
 })
 
 export default conexao
+
