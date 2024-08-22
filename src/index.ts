@@ -16,8 +16,8 @@ app.get('/', (req: Request, res: Response): void => {
 });
 
 app.get('/departamentos', async (req: Request, res: Response) => {
- const [data] = await conexao.query("SELECT * FROM departamentos")
- res.json(data)
+  const [data] = await conexao.query("SELECT * FROM departamentos")
+  res.json(data)
 });
 
 app.post('/departamentos', (req: Request, res: Response): void => {
@@ -28,15 +28,26 @@ app.post('/departamentos', (req: Request, res: Response): void => {
 });
 
 app.delete('/departamentos', async (req: Request, res: Response) => {
- const id = req.query.id
-  const query = await conexao.query(`DELETE FROM departamentos WHERE id_departamento = ${id}`) 
+  const id = req.query.id
+  const query = await conexao.query(`DELETE FROM departamentos WHERE id_departamento = ${id}`)
   res.json(query)
 })
+
+app.get('/departamentos/:id', async (req: Request, res: Response) => {
+  const id = req.params.id
+  const [data] = await conexao.query(`SELECT * FROM departamentos WHERE id_departamento = ${id}`)
+  if ((data as Array<any>).length == 0) {
+    return res.status(404).json({ error: "Departamento não encontrado" })
+  }
+  res.json(data)
+});
+
+
+
 
 app.listen(porta, () => {
   console.log(`Servidor escutando na
 porta http://localhost:${porta}`);
 })
-
 
 
