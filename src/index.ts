@@ -1,11 +1,10 @@
 import express, { Request, Response } from 'express';
 import conexao from './services/connection';
-
-
-
-
+import cors from 'cors';
 
 const app = express();
+
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -20,11 +19,13 @@ app.get('/departamentos', async (req: Request, res: Response) => {
   res.json(data)
 });
 
-app.post('/departamentos', (req: Request, res: Response): void => {
+app.post('/departamentos', async (req: Request, res: Response) => {
 
-  console.log(req.body);
+  const data = Object.values(req.body).map(item=>`'${item}'`).join(",")
+  console.log(data)
+const query = await conexao.query(`INSERT INTO departamentos (sigla,nome) VALUES (${data})`)
 
-  res.send('POST departamentos');
+  res.json(query);
 });
 
 app.delete('/departamentos', async (req: Request, res: Response) => {
